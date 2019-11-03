@@ -52,10 +52,13 @@ string reverse(string str){
 
 string polaca(string str){
   if ((str.find('[') == string::npos) and (str.find('(') != string::npos)){
-    str[str.find('(')] = '[';
-    str[str.find(')')] = ']';
+    for (unsigned int q = 0; q < str.size(); q++){
+      if (str[q] == '(')
+        str[q] = '[';
+      else if (str[q] == ')')
+        str[q] = ']';
+    }
   }
-  cout << "String: " << str << endl;
   string total;
   int s = signo(str);
   if (conver(str)){
@@ -71,10 +74,14 @@ string polaca(string str){
     if ((parte1[0] == '[') and (parte2[0] != '[')){
       total += "]" + polaca(str.substr(1, s-2)) + "[" + "]" + polaca(str.substr(s+1, parte2.size())) + "[";}
     else if ((parte2[0] == '[') and (parte1[0] != '[')){
+      if (str.find(']') != string::npos)
+        str.erase(str.find(']'));
       total += "]" + polaca(str.substr(0, s)) + "[" + "]" + polaca(str.substr(s+2, parte2.size()-2)) + "[";}
     else if ((parte2[0] == '[') and (parte1[0] == '[')){
       total += "]" + polaca(str.substr(1, s-2)) + "[" + "]" + polaca(str.substr(s+2, parte2.size()-2)) + "[";}
     else {
+      if (str.find(']') != string::npos)
+        str.erase(str.find(']'));
       total += "]" + polaca(parte1) +"[" +"]" + polaca(parte2) + "[";}
     }
   return total;
@@ -90,7 +97,7 @@ string polaca_inv(string str){
 }
 
 int main(){
-    string str = "[3+(x+225)]+22*x";
+    string str = "[(x+225)/(3*x)]+x^23";
     cout<< polaca_inv(str)<<endl;
     return 0;
 }
