@@ -51,6 +51,11 @@ string reverse(string str){
 }
 
 string polaca(string str){
+  if ((str.find('[') == string::npos) and (str.find('(') != string::npos)){
+    str[str.find('(')] = '[';
+    str[str.find(')')] = ']';
+  }
+  cout << "String: " << str << endl;
   string total;
   int s = signo(str);
   if (conver(str)){
@@ -85,7 +90,7 @@ string polaca_inv(string str){
 }
 
 int main(){
-    string str = "[x+225]+22*x";
+    string str = "[3+(x+225)]+22*x";
     cout<< polaca_inv(str)<<endl;
     return 0;
 }
