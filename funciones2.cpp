@@ -43,11 +43,18 @@ bool conver(string str){
   return true;
 }
 
+string reverse(string str){
+  if (str.size() <= 1)
+    return str;
+  else
+    return str[str.size()-1] + reverse(str.substr(0, str.size()-1));
+}
+
 string polaca(string str){
   string total;
   int s = signo(str);
   if (conver(str)){
-    return str;
+    return reverse(str);
   }
   if (str.size() <= 1){
     return str;
@@ -57,13 +64,13 @@ string polaca(string str){
     string parte1 = str.substr(0, s);
     string parte2 = str.substr(s+1, str.size());
     if ((parte1[0] == '[') and (parte2[0] != '[')){
-      total += "[" + polaca(str.substr(1, s-2)) + "]" + "[" + polaca(str.substr(s+1, parte2.size())) + "]";}
+      total += "]" + polaca(str.substr(1, s-2)) + "[" + "]" + polaca(str.substr(s+1, parte2.size())) + "[";}
     else if ((parte2[0] == '[') and (parte1[0] != '[')){
-      total += "[" + polaca(str.substr(0, s)) + "]" + "[" + polaca(str.substr(s+2, parte2.size()-2)) + "]";}
+      total += "]" + polaca(str.substr(0, s)) + "[" + "]" + polaca(str.substr(s+2, parte2.size()-2)) + "[";}
     else if ((parte2[0] == '[') and (parte1[0] == '[')){
-      total += "[" + polaca(str.substr(1, s-2)) + "]" + "[" + polaca(str.substr(s+2, parte2.size()-2)) + "]";}
+      total += "]" + polaca(str.substr(1, s-2)) + "[" + "]" + polaca(str.substr(s+2, parte2.size()-2)) + "[";}
     else {
-      total += "[" + polaca(parte1) +"]" +"[" + polaca(parte2) + "]";}
+      total += "]" + polaca(parte1) +"[" +"]" + polaca(parte2) + "[";}
     }
   return total;
 }
@@ -79,6 +86,6 @@ string polaca_inv(string str){
 
 int main(){
     string str = "[x+225]+22*x";
-    cout<< polaca(str)<<endl;
+    cout<< polaca_inv(str)<<endl;
     return 0;
 }
