@@ -51,7 +51,7 @@ string polaca(string str){
     else if ((parte2[0] == '[') and (parte1[0] != '['))
       return s + "]" + polaca(str.substr(0, str.find(s))) + "[" + "]" + polaca(str.substr(str.find(s)+2, str.size()-4)) + "[";
     else if ((parte2[0] == '[') and (parte1[0] == '['))
-      return s + "]" + polaca(str.substr(1, str.find(s)-2)) + "[" + "]" + polaca(str.substr(str.find(s)+2, str.size()-8)) + "[";
+      return s + "]" + polaca(str.substr(1, str.find(s)-2)) + "[" + "]" + polaca(str.substr(str.find(s)+2, str.size()-(str.size()-3))) + "[";
     else
       return s + "]" + polaca(str.substr(0, str.find(s))) +"[" +"]" + polaca(str.substr(str.find(s)+1, str.size())) + "[";
   }
@@ -67,7 +67,7 @@ string polaca_inv(string str){
 }
 
 int main(){
-    string str = "[x+2]*[x*1]";
+    string str = "[x+2]^2";
     cout<< polaca_inv(str)<<endl;
     return 0;
 }
