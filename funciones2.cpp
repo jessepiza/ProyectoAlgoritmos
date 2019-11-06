@@ -1,33 +1,35 @@
 
 #include<iostream>
 #include<string>
+#include<vector>
 //#include "def_tree.cpp"
 
 using namespace std;
 
-int signo(string str){
-  int signo = 0;
-  if (str.find('[') == string::npos){
-    if(str.find('*') != string::npos)
-      signo = str.find('*');
-    else if (str.find('/') != string::npos)
-      signo = str.find('/');
-    else if (str.find('^') != string::npos)
-      signo = str.find('^');
-    else if (str.find('+') != string::npos)
-      signo = str.find('+');
-    else if (str.find('-') != string::npos)
-      signo = str.find('-');
+bool in_conectivos (char ch){
+  vector<char> conectivos = {'+', '-', '/', '*', '^'};
+  for (unsigned int q = 0; q < conectivos.size(); q++){
+    if (conectivos[q] == ch)
+      return true;
   }
+  return false;
+}
 
-  else{
-    for (unsigned int i = 1; i < str.size();i++){
-      if (str[i] == ']'){
-        signo = i+1;
-        break;
-      }else if(str[i] == '['){
-        signo = i-1;
-        break;
+int signo(string str){
+  int level = 0;
+  unsigned int signo = 0;
+  int val = 1e6;
+  for (unsigned int i = 0; i < str.size(); i++){
+    if (str[i] == '['){
+      level++;
+    }
+    else if (str[i] == ']'){
+      level--;
+    }
+    else if (in_conectivos(str[i])){
+      if (val > level){
+        signo = i;
+        val = level;
       }
     }
   }
@@ -74,12 +76,14 @@ string polaca(string str){
     if ((parte1[0] == '[') and (parte2[0] != '[')){
       total += "]" + polaca(str.substr(1, s-2)) + "[" + "]" + polaca(str.substr(s+1, parte2.size())) + "[";}
     else if ((parte2[0] == '[') and (parte1[0] != '[')){
-      if (str.find(']') != string::npos)
-        str.erase(str.find(']'));
+        if (str.find(']') != string::npos)
+            str.erase(str.find(']'));
       total += "]" + polaca(str.substr(0, s)) + "[" + "]" + polaca(str.substr(s+2, parte2.size()-2)) + "[";}
     else if ((parte2[0] == '[') and (parte1[0] == '[')){
       total += "]" + polaca(str.substr(1, s-2)) + "[" + "]" + polaca(str.substr(s+2, parte2.size()-2)) + "[";}
     else {
+      if (str.find('[') != string::npos)
+        str.erase(str.find('['));
       if (str.find(']') != string::npos)
         str.erase(str.find(']'));
       total += "]" + polaca(parte1) +"[" +"]" + polaca(parte2) + "[";}
@@ -97,7 +101,7 @@ string polaca_inv(string str){
 }
 
 int main(){
-    string str = "[(x+225)/(3*x)]+x^23";
-    cout<< polaca_inv(str)<<endl;
+    string str = "[[[x+225]/[3*x^2]]^2]+[x^23]";
+    cout<< polaca_inv(str) <<endl;
     return 0;
 }
