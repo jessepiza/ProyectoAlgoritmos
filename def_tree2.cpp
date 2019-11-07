@@ -3,14 +3,39 @@
 #include<string>
 #include<vector>
 using namespace std;
-vector<char> conectivos = {'+', '-', '/', '*', '^', 'b'};
-bool found_element (char str){
-    vector<char>::iterator it = find(conectivos.begin(), conectivos.end(), str);
-    if (it != conectivos.end())
+
+
+bool in_conectivos (char ch){
+  vector<char> conectivos = {'+', '-', '/', '*', '^'};
+  for (unsigned int q = 0; q < conectivos.size(); q++){
+    if (conectivos[q] == ch)
       return true;
-    else
-      return false;
+  }
+  return false;
 }
+
+bool in_conectivos2 (string str){
+  for (unsigned int q = 0; q < str.size(); q++){
+    if (in_conectivos(str[q]))
+      return true;
+  }
+  return false;
+}
+
+int index(string str){
+  int count1 = 0;
+  int count2 = 0;
+  for (unsigned int q = 0; q < str.size(); q++){
+    if (str[q] == '[')
+      count1++;
+    else if (str[q] == ']')
+      count2++;
+    if (count1 == count2)
+      return q;
+  }
+  return -1;
+}
+
 struct Derivada {
     string signo;
     Derivada *left, *right;
@@ -22,50 +47,40 @@ struct Derivada {
     Derivada(){
       left = nullptr;
       right = nullptr;
-      signo = "";
+      signo = "";        // cout << t->left->signo << endl;
+        // cout << t->right->signo << endl;
     }
-    Derivada stringtotree(string str){
-      vector<Derivada> pila;
-      for (unsigned int q = 0; q < str.size(); q++){
-        if (found_element(str[q])){
-          Derivada t;
-          t.signo = str[q];
-          cout << t.signo << endl;
-          *t.right = pila[pila.size()-2];
-          *t.left = pila[pila.size()-2];
-          pila.erase(pila.end()-1);
-          pila.erase(pila.end()-1);
-          pila.push_back(t);
-
-        }
-        else{
-          Derivada aux;
-          aux.signo = str[q];
-          aux.right = nullptr;
-          aux.left = nullptr;
-          cout << aux.signo << endl;
-        }
+    void stringtotree(string str){
+      if (!in_conectivos2(str)){
+        this -> signo = str;
+        this -> right = nullptr;
+        this -> left = nullptr;
+        cout<<str<<endl;
       }
-      return pila[pila.size()-1];
+      else{
+        this -> signo = str[str.size()-1];
+        int idx = index(str);
+        this -> right = new Derivada(str.substr(1, idx-1));
+        this -> left = new Derivada(str.substr(idx+1, str.size()-3));
+      }
     }
     void displayTree(){
-      Derivada* prueba = this;
-      displayTree(prueba);
-    }
+  		Derivada* prueba = this;
+  		displayTree(prueba);
+  	}
     void displayTree(Derivada *t) {
-      if(t->left == nullptr)
-      cout<<t->signo;
-      else{
+      if (t->left != nullptr){
         displayTree(t->left);
-        cout << t->signo;
+        cout << t->signo << endl;
         displayTree(t->right);
+        // cout << t->left->signo << endl;
+        // cout << t->right->signo << endl;
       }
-      cout<<'\n';
     }
 };
 int main(){
-    Derivada prueba("23x^+");
-    prueba.displayTree();
+    Derivada prueba("[[[33][x]+][3]*][[2][[[2][x]+][[22][x]^]+]^]+");
+    //prueba.displayTree();
     // prueba.stringtotree("23x^+");
 
 

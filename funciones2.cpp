@@ -15,6 +15,14 @@ bool in_conectivos (char ch){
   return false;
 }
 
+bool in_conectivos2 (string str){
+  for (unsigned int q = 0; q < str.size(); q++){
+    if (in_conectivos(str[q]))
+      return true;
+  }
+  return false;
+}
+
 int signo(string str){
   int level = 0;
   unsigned int signo = 0;
@@ -50,6 +58,22 @@ string reverse(string str){
     return str;
   else
     return str[str.size()-1] + reverse(str.substr(0, str.size()-1));
+}
+
+int index(string str){
+  int count1 = 0;
+  int count2 = 0;
+  signo = str[str.size()-1];
+  for (unsigned int q = 0; q < str.size(); q++){
+    while((count1 != count2) or (count1 == 0)){
+      if (str[q] == '[')
+        count1++;
+      else if (str[q] == ']')
+        count2++;
+    }
+    return q;
+  }
+  return -1;
 }
 
 string polaca(string str){
@@ -101,7 +125,7 @@ string polaca_inv(string str){
 }
 
 int main(){
-    string str = "[[[x+225]/[3*x^2]]^2]+[x^23]";
+    string str = "[[[x^22]+[x+2]]^2]+[3*[x+33]]";
     cout<< polaca_inv(str) <<endl;
     return 0;
 }
