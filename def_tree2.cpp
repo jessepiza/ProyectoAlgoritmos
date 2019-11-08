@@ -1,28 +1,28 @@
-#include<iostream>
+in_operadores_str#include<iostream>
 #include <algorithm>
 #include<string>
 #include<vector>
 using namespace std;
 
 
-bool in_conectivos (char ch){
-  vector<char> conectivos = {'+', '-', '/', '*', '^'};
-  for (unsigned int q = 0; q < conectivos.size(); q++){
-    if (conectivos[q] == ch)
+bbool in_operadores_char (char ch){
+  vector<char> operadores = {'+', '-', '/', '*', '^'};
+  for (unsigned int q = 0; q < operadores.size(); q++){
+    if (operadores[q] == ch)
       return true;
   }
   return false;
 }
 
-bool in_conectivos2 (string str){
+bool in_operadores_str (string str){
   for (unsigned int q = 0; q < str.size(); q++){
-    if (in_conectivos(str[q]))
+    if (in_operadores(str[q]))
       return true;
   }
   return false;
 }
 
-int index(string str){
+int index_balanced(string str){
   int count1 = 0;
   int count2 = 0;
   for (unsigned int q = 0; q < str.size(); q++){
@@ -51,14 +51,14 @@ struct Derivada {
         // cout << t->right->signo << endl;
     }
     void stringtotree(string str){
-      if (!in_conectivos2(str)){
+      if (!in_operadores_str(str)){
         this -> signo = str;
         this -> right = nullptr;
         this -> left = nullptr;
       }
       else{
         this -> signo = str[str.size()-1];
-        int idx = index(str);
+        int idx = index_balanced(str);
         this -> right = new Derivada(str.substr(1, idx-1));
         this -> left = new Derivada(str.substr(idx+2, str.size()-idx-4));
       }
@@ -81,7 +81,6 @@ struct Derivada {
 int main(){
     Derivada prueba("[8][[2][[3][x]+]^]+");
     prueba.displayTree();
-    // prueba.stringtotree("23x^+");
 
 
     return 0;

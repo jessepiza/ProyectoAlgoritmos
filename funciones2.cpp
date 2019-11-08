@@ -6,26 +6,26 @@
 
 using namespace std;
 
-bool in_conectivos (char ch){
-  vector<char> conectivos = {'+', '-', '/', '*', '^'};
-  for (unsigned int q = 0; q < conectivos.size(); q++){
-    if (conectivos[q] == ch)
+bool in_operadores_char (char ch){
+  vector<char> operadores = {'+', '-', '/', '*', '^'};
+  for (unsigned int q = 0; q < operadores.size(); q++){
+    if (operadores[q] == ch)
       return true;
   }
   return false;
 }
 
-bool in_conectivos2 (string str){
+bool in_operadores_str (string str){
   for (unsigned int q = 0; q < str.size(); q++){
-    if (in_conectivos(str[q]))
+    if (in_operadores_char(str[q]))
       return true;
   }
   return false;
 }
 
-int signo(string str){
+int operador(string str){
   int level = 0;
-  unsigned int signo = 0;
+  unsigned int operador = 0;
   int val = 1e6;
   for (unsigned int i = 0; i < str.size(); i++){
     if (str[i] == '['){
@@ -34,17 +34,17 @@ int signo(string str){
     else if (str[i] == ']'){
       level--;
     }
-    else if (in_conectivos(str[i])){
+    else if (in_operadores_char(str[i])){
       if (val > level){
-        signo = i;
+        operador = i;
         val = level;
       }
     }
   }
-  return signo;
+  return operador;
 }
 
-bool conver(string str){
+bool conver_num(string str){
   for (unsigned int q = 0; q < str.size(); q++){
     if (!isalnum(str[q])){
       return false;
@@ -70,8 +70,8 @@ string polaca(string str){
     }
   }
   string total;
-  int s = signo(str);
-  if (conver(str)){
+  int s = operador(str);
+  if (conver_num(str)){
     return reverse(str);
   }
   if (str.size() <= 1){

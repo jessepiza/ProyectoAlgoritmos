@@ -1,32 +1,42 @@
-#ifndef _DERIVADA_H_
-#define _DERIVADA_H_
+#ifndef _Derivada_hpp_
+#define _Derivada_hpp_
 
-#include string;
+#include <iostream>
+#include <string>
+#include <vector>
 
-class Derivada{
+class Tree{
 public:
-  Derivada();
-  Derivada(string func);
+  Tree();
+  Tree(string func);
 
+  bool in_operadores_str (string str);
+  bool conver_num(string str);
+  int operador(string str);
+  int index_balanced(string str);
+  string reverse(string str);
+  string polaca(string str);
+  string polaca_inv(string str);
+  void stringtotree(string str);
+  void displayTree();
 private:
-  struct Tree{
-    string der;
-    Tree *left, right;
-    Tree();
-    Tree(string func);
-    void stringtotree(string str);
-    void displayTree();
-    void displayTree(Derivada *t);
-    bool in_conectivos (char ch);
-    bool in_conectivos2 (string str);
-    bool conver(string str);
-    int signo(string str);
-    int index(string str)
-    string reverse(string str);
-    string polaca(string str);
-    string polaca_inv(string str);
-  };
-  Tree Der;
+  string signo; // Operador o variable libre de la función
+  Tree *left, *right; // Operandos que separa el operador
+
+  void displayTree(Tree *t);
+  bool in_operadores_char (char ch);
+
 };
+
+// class Derivada{
+// public:
+//   Derivada();
+//   Derivada(string func);
+//
+// private:
+//   struct Tree{
+//   };
+//   Tree Der;
+// };
 
 #endif
