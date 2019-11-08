@@ -60,22 +60,6 @@ string reverse(string str){
     return str[str.size()-1] + reverse(str.substr(0, str.size()-1));
 }
 
-int index(string str){
-  int count1 = 0;
-  int count2 = 0;
-  signo = str[str.size()-1];
-  for (unsigned int q = 0; q < str.size(); q++){
-    while((count1 != count2) or (count1 == 0)){
-      if (str[q] == '[')
-        count1++;
-      else if (str[q] == ']')
-        count2++;
-    }
-    return q;
-  }
-  return -1;
-}
-
 string polaca(string str){
   if ((str.find('[') == string::npos) and (str.find('(') != string::npos)){
     for (unsigned int q = 0; q < str.size(); q++){
@@ -125,7 +109,7 @@ string polaca_inv(string str){
 }
 
 int main(){
-    string str = "[[[x^22]+[x+2]]^2]+[3*[x+33]]";
+    string str = "[[x+3]^2]+8";
     cout<< polaca_inv(str) <<endl;
     return 0;
 }

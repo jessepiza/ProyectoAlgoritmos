@@ -55,13 +55,12 @@ struct Derivada {
         this -> signo = str;
         this -> right = nullptr;
         this -> left = nullptr;
-        cout<<str<<endl;
       }
       else{
         this -> signo = str[str.size()-1];
         int idx = index(str);
         this -> right = new Derivada(str.substr(1, idx-1));
-        this -> left = new Derivada(str.substr(idx+1, str.size()-3));
+        this -> left = new Derivada(str.substr(idx+2, str.size()-idx-4));
       }
     }
     void displayTree(){
@@ -69,18 +68,19 @@ struct Derivada {
   		displayTree(prueba);
   	}
     void displayTree(Derivada *t) {
-      if (t->left != nullptr){
+      if (t->left == nullptr){
+        cout << t->signo << endl;
+      }
+      else{
         displayTree(t->left);
         cout << t->signo << endl;
         displayTree(t->right);
-        // cout << t->left->signo << endl;
-        // cout << t->right->signo << endl;
       }
     }
 };
 int main(){
-    Derivada prueba("[[[33][x]+][3]*][[2][[[2][x]+][[22][x]^]+]^]+");
-    //prueba.displayTree();
+    Derivada prueba("[8][[2][[3][x]+]^]+");
+    prueba.displayTree();
     // prueba.stringtotree("23x^+");
 
 
