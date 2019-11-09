@@ -209,7 +209,6 @@ struct Tree {
 
     Derivada regla(){
       Derivada* nuev = new Derivada();
-
       if(!in_conectivos2(this->signo)){
           for (unsigned int i = 0; i<this->signo.size();i++){
               if(isdigit((this->signo)[i]))
@@ -217,15 +216,16 @@ struct Tree {
               else if (isalpha((this->signo)[i]))
                 nuev->signo = "1";
           }
-          
+
       }else{
-          if ((this->signo == "+")||(this->signo == "-")){//regla de suma o resta
+          if(this->signo == "-"){//regla resta
+            nuev->signo = "-";
+            nuev->right = new Derivada((this->right)->regla());
+          }
+          if (this->signo == "+"){//regla de suma o resta
+              nuev->signo = "+";
               nuev->left = new Derivada((this->left)->regla());
               nuev->right = new Derivada((this->right)->regla());
-              if(this->signo == "+")
-                nuev->signo = "+";
-              else if(this->signo == "-")
-                nuev->signo = "-";
            }else if(this->signo == "*"){//regla multiplicacion
              nuev->signo = "+";
              nuev->left = copyT(this);
@@ -237,8 +237,8 @@ struct Tree {
              nuev->left = copyT(this);
              nuev->left->signo = "*";
              nuev->left->left = new Derivada((this->left)->regla());
-             
-             nuev->right->signo = this->right->signo+"-1";           
+             nuev->right = copyT(this->right);
+             nuev->right->signo +="-1";
            }
       }
       return *nuev;
@@ -257,13 +257,13 @@ struct Tree {
 };
 
 int main(){
-  string func =  "[x+4]^3";
+  string func =  "[x+3]^[2]";
   string pol = polaca_inv(func);
   Tree der(pol);
-  cout<<"inicial: ";
+  cout<<"inicial: "<<endl;
   der.displayTree();
   Derivada sol = der.regla();
-  cout<<"deriv: ";
+  cout<<"deriv: "<<endl;
   sol.displayTree();
 
 
