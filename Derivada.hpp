@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 class Tree{
 public:
   Tree();
@@ -25,6 +27,7 @@ private:
 
   void displayTree(Tree *t);
   bool in_operadores_char (char ch);
+  bool is_polaca_inv(string str);
 
 };
 
