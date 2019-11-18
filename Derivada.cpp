@@ -1,13 +1,20 @@
 #include "Derivada.hpp"
 #include <string>
 
+/*
+  Class Tree.
+*/
+
 Tree::Tree(){
+  // Constructor.
   left = nullptr;
   right = nullptr;
   signo = "";
 }
 
 Tree::Tree(string func){
+  // Constructor copia.
+  // Convierte la función ingresada en un árbol.
   if (!is_polaca_inv(func)){
     stringtotree(polaca_inv(func));
   }
@@ -15,6 +22,12 @@ Tree::Tree(string func){
     stringtotree(func);
   }
 }
+
+// Tree::Tree(Tree *t){
+//   left = t->left;
+//   right = t->right;
+//   signo =  t->signo;
+// }
 
 bool Tree::in_operadores_str(string str){
   // Retorna True si en el string ingresado se encuentra algún operador
@@ -39,6 +52,16 @@ bool Tree::conver_num(string str){
     }
   }
   return true;
+}
+
+bool Tree::conver_num2(string str){
+  try{
+    stoi(str);
+    return true;
+  }
+  catch (invalid_argument& ia){
+    return false;
+  }
 }
 
 int Tree::operador (string str){
@@ -94,6 +117,10 @@ string Tree::reverse(string str){
 }
 
 string Tree::polaca(string str){
+  // Retorna un string con el parámetro ingresado en polaca.
+  // Parámetros:
+  // str - String.
+  // Parámetros
   if ((str.find('[') == string::npos) and (str.find('(') != string::npos)){
     for (unsigned int q = 0; q < str.size(); q++){
       if (str[q] == '(')
@@ -134,6 +161,9 @@ string Tree::polaca(string str){
 }
 
 string Tree::polaca_inv(string str){
+  // Retorna un string con el parámetro ingresado en polaca inversa.
+  // Parámetros:
+  // str - String.
   string fin;
   string str2 = polaca(str);
   for (unsigned int q = str2.size(); q > 0; q--){
@@ -143,6 +173,9 @@ string Tree::polaca_inv(string str){
 }
 
 void Tree::stringtotree(string str){
+  // Convierte el string ingresado en un árbol.
+  // Parámetros:
+  // str - String: Tiene que estar en polaca inversa para poder hacer la conversión.
   if (!in_operadores_str(str)){
     this -> signo = str;
     this -> right = nullptr;
@@ -157,22 +190,30 @@ void Tree::stringtotree(string str){
 }
 
 void Tree::displayTree(){
+  // Utiliza displayTree(Tree *t) para imprimir el árbol sin parámetos.
   Tree* prueba = this;
   displayTree(prueba);
 }
 
 void Tree::displayTree(Tree *t){
+  // Imprime el arbol.
+  // Parámetros:
+  // t - Tree.
   if (t->left == nullptr){
-    cout << t->signo << endl;
+    cout << t->signo;
   }
   else{
     displayTree(t->left);
-    cout << t->signo << endl;
+    cout << t->signo;
     displayTree(t->right);
   }
 }
 
 bool Tree::in_operadores_char(char ch){
+  // Retorna True si el char ingresdo es un operador.
+  // De lo contrario retorna False.
+  // Parámetos:
+  // ch - char.
   vector<char> operadores = {'+', '-', '/', '*', '^'};
   for (unsigned int q = 0; q < operadores.size(); q++){
     if (operadores[q] == ch)
@@ -182,5 +223,118 @@ bool Tree::in_operadores_char(char ch){
 }
 
 bool Tree::is_polaca_inv(string str){
+  // Retorna True si el string ingresado está en polaca inversa.
+  // De lo contrario retorna False.
+  // Parámetos:
+  // str - String.
   return in_operadores_char(str[str.size()-1]);
+}
+
+Tree Tree::Derivacion(){
+  Tree* prueba = this;
+  return Derivacion(prueba);
+}
+
+Tree Tree::Derivacion(Tree *t){
+  // Retorna un arbol con la expresión ingresada derivada.
+  // Parámetos:
+  // t - Tree
+  Tree* nuev = new Tree();
+  if(!in_operadores_str(t->signo)){
+    for (unsigned int i = 0; i < t->signo.size();i++){
+        if(isdigit((t->signo)[i]))
+          nuev->signo = "0";//si es constante la derivada es 0
+        else if (isalpha((t->signo)[i]))
+          nuev->signo = "1";
+    }
+  }
+  else{
+    // Regla de la resta.
+    if(t->signo == "-"){
+      nuev->signo = "-";
+      nuev->left = new Tree(Derivacion(t->left));
+      nuev->right = new Tree(Derivacion(t->right));
+    }
+    // Regla de la suma.
+    else if (t->signo == "+"){
+      nuev->signo = "+";
+      nuev->left = new Tree(Derivacion(t->left));
+      nuev->right = new Tree(Derivacion(t->right));
+    }
+    // Regla de la multiplicación.
+    else if(t->signo == "*"){
+      nuev->signo = "+";
+      nuev->left = copyT(t);
+      nuev->left->left = new Tree(Derivacion(t->left));
+      nuev->right = copyT(t);
+      nuev->right->right = new Tree(Derivacion(t->right));
+    }
+    // Regla del exponente.
+    else if(t->signo == "^"){
+      if (conver_num2(t->right->signo)){
+        if (!in_operadores_str(t->left->signo)){
+          nuev->signo = "^";
+          nuev->left = copyT(t);
+          nuev->left->signo = "*";
+          nuev->left->left = new Tree(t->left->signo);
+          Tree *old_left = nuev->left->left;
+          nuev->left->left = nuev->left->right;
+          nuev->left->right = old_left;
+          nuev->right = copyT(t->right);
+          nuev->right->signo +="-1";
+        }
+        else{
+          nuev->signo = "*";
+          nuev->right = new Tree(Derivacion(t->left));
+          nuev->left = new Tree();
+          nuev->left->signo = "^";
+          nuev->left->left = copyT(t);
+          nuev->left->left->signo = "*";
+          Tree *old_left = nuev->left->left->left;
+          nuev->left->left->left = nuev->left->left->right;
+          nuev->left->left->right = old_left;
+          nuev->left->right = copyT(t->right);
+          nuev->left->right->signo +="-1";
+        }
+      }
+      else{
+        nuev->signo = "*";
+        nuev->right = new Tree(Derivacion(t));
+        nuev->left = new Tree();
+        nuev->left->signo = "*";
+        nuev->left->left = copyT(t);
+        nuev->left->right = new Tree();
+        nuev->left->right->signo = "Ln";
+        nuev->left->right->right = copyT(t->left);
+      }
+    }
+    // Regla de la división
+    else if (t->signo == "/"){
+      nuev->signo = "/";
+      nuev->right = new Tree();
+      nuev->right->signo = "^";
+      nuev->right->left = copyT(t->right);
+      nuev->right->right = new Tree("2");
+      nuev->left = new Tree();
+      nuev->left->signo = "-";
+      nuev->left->left = copyT(t);
+      nuev->left->left->signo = "*";
+      nuev->left->left->left = new Tree(Derivacion(t->left));
+      nuev->left->right = copyT(t);
+      nuev->left->right->signo = "*";
+      nuev->left->right->right = new Tree(Derivacion(t->right));
+    }
+  }
+  return *nuev;
+}
+
+Tree *Tree::copyT(Tree *t){
+  Tree* nuevo = nullptr;
+  if (t){
+      nuevo = new Tree();
+      nuevo->signo = t->signo;
+      nuevo->left = copyT(t->left);
+      nuevo->right = copyT(t->right);
+  }
+  return nuevo;
 }

@@ -11,6 +11,7 @@ class Tree{
 public:
   Tree();
   Tree(string func);
+  // Tree(Tree *t);
 
   bool in_operadores_str (string str);
   bool conver_num(string str);
@@ -21,25 +22,31 @@ public:
   string polaca_inv(string str);
   void stringtotree(string str);
   void displayTree();
+  Tree *copyT(Tree *t);
+  Tree Derivacion();
 private:
   string signo; // Operador o variable libre de la función
   Tree *left, *right; // Operandos que separa el operador
 
+  Tree Derivacion(Tree *t);
   void displayTree(Tree *t);
   bool in_operadores_char (char ch);
   bool is_polaca_inv(string str);
+  bool conver_num2(string str);
 
 };
 
-// class Derivada{
+// class Derivada: public Tree{
 // public:
 //   Derivada();
-//   Derivada(string func);
+//   Derivada(Tree *t);
+//   Derivada Derivacion();
+//   Derivada *copyT(Tree *t);
+//   void displayDer();
 //
 // private:
-//   struct Tree{
-//   };
-//   Tree Der;
+//   Tree *Der;
+//   Derivada Derivacion(Tree *t);
 // };
 
 #endif
