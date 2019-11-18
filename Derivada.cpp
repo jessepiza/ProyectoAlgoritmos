@@ -23,12 +23,6 @@ Tree::Tree(string func){
   }
 }
 
-// Tree::Tree(Tree *t){
-//   left = t->left;
-//   right = t->right;
-//   signo =  t->signo;
-// }
-
 bool Tree::in_operadores_str(string str){
   // Retorna True si en el string ingresado se encuentra algún operador
   // De lo contrario retorna False
@@ -276,7 +270,9 @@ Tree Tree::Derivacion(Tree *t){
     // Regla del exponente.
     else if(t->signo == "^"){
       if (conver_num2(t->right->signo)){
+        // Caso: El exponente es un número.
         if (!in_operadores_str(t->left->signo)){
+          // La variable está sola.
           nuev->signo = "^";
           nuev->left = copyT(t);
           nuev->left->signo = "*";
@@ -288,6 +284,7 @@ Tree Tree::Derivacion(Tree *t){
           nuev->right->signo +="-1";
         }
         else{
+          // Regla de la cadena.
           nuev->signo = "*";
           nuev->right = new Tree(Derivacion(t->left));
           nuev->left = new Tree();
@@ -301,6 +298,7 @@ Tree Tree::Derivacion(Tree *t){
           nuev->left->right->signo +="-1";
         }
       }
+      // Caso: El exponente es una variable.
       else{
         nuev->signo = "*";
         nuev->right = new Tree(Derivacion(t->right));
