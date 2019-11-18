@@ -33,7 +33,7 @@ private:
   bool in_operadores_char (char ch);
   bool is_polaca_inv(string str);
   bool conver_num2(string str);
-
+  
 };
 
 // class Derivada: public Tree{

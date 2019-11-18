@@ -42,7 +42,7 @@ bool Tree::in_operadores_str(string str){
 }
 
 bool Tree::conver_num(string str){
-  // Retorna True si el string ingresado se puede o no convertir a un número.
+  // Retorna True si el string ingresado se puede o no convertir a un número o es una sola letra.
   // De lo contrario retorna False.
   // Parámetros:
   // str - String
@@ -55,6 +55,10 @@ bool Tree::conver_num(string str){
 }
 
 bool Tree::conver_num2(string str){
+  // Retorna True si el string ingresado se puede convertir a un número.
+  // De lo contrario retorna False.
+  // Parámetos:
+  // str - String.
   try{
     stoi(str);
     return true;
@@ -131,11 +135,11 @@ string Tree::polaca(string str){
   }
   string total;
   int s = operador(str);
-  if (conver_num(str)){
-    return reverse(str);
-  }
   if (str.size() <= 1){
     return str;
+  }
+  if (conver_num(str)){
+    return reverse(str);
   }
   else{
     total += str[s];
@@ -299,13 +303,13 @@ Tree Tree::Derivacion(Tree *t){
       }
       else{
         nuev->signo = "*";
-        nuev->right = new Tree(Derivacion(t));
+        nuev->right = new Tree(Derivacion(t->right));
         nuev->left = new Tree();
         nuev->left->signo = "*";
-        nuev->left->left = copyT(t);
-        nuev->left->right = new Tree();
-        nuev->left->right->signo = "Ln";
-        nuev->left->right->right = copyT(t->left);
+        nuev->left->left = new Tree();
+        cout << t->right->signo << endl;
+        nuev->left->left->signo = "ln[" + t->left->signo + "]";
+        nuev->left->right = copyT(t);
       }
     }
     // Regla de la división
