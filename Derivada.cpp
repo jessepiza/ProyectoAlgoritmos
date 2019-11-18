@@ -307,7 +307,6 @@ Tree Tree::Derivacion(Tree *t){
         nuev->left = new Tree();
         nuev->left->signo = "*";
         nuev->left->left = new Tree();
-        cout << t->right->signo << endl;
         nuev->left->left->signo = "ln[" + t->left->signo + "]";
         nuev->left->right = copyT(t);
       }
