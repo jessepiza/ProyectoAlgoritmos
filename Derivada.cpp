@@ -295,7 +295,12 @@ Tree Tree::Derivacion(Tree *t){
           nuev->left->left->left = nuev->left->left->right;
           nuev->left->left->right = old_left;
           nuev->left->right = copyT(t->right);
-          nuev->left->right->signo +="-1";
+          if (conver_num2(nuev->left->right->signo)){
+            int num = stoi(nuev->left->right->signo);
+            num -=1;
+            string str_num = to_string(num);
+            nuev->left->right->signo = str_num;
+          }
         }
       }
       // Caso: El exponente es una variable.

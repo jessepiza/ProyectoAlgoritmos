@@ -24,6 +24,7 @@ public:
   void displayTree();
   Tree *copyT(Tree *t);
   Tree Derivacion();
+  string treetostring(Tree *t);
 private:
   string signo; // Operador o variable libre de la función
   Tree *left, *right; // Operandos que separa el operador
@@ -33,7 +34,7 @@ private:
   bool in_operadores_char (char ch);
   bool is_polaca_inv(string str);
   bool conver_num2(string str);
-  
+
 };
 
 // class Derivada: public Tree{
