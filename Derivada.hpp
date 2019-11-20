@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <stdio.h>
 
 using namespace std;
 
@@ -24,7 +25,7 @@ public:
   void displayTree();
   Tree *copyT(Tree *t);
   Tree Derivacion();
-  string treetostring(Tree *t);
+  string treetostring();
 private:
   string signo; // Operador o variable libre de la función
   Tree *left, *right; // Operandos que separa el operador
@@ -34,7 +35,8 @@ private:
   bool in_operadores_char (char ch);
   bool is_polaca_inv(string str);
   bool conver_num2(string str);
-
+  string treetostring(Tree *t);
+  Tree & Derivada (Tree *t);
 };
 
 // class Derivada: public Tree{

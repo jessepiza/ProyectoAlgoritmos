@@ -207,6 +207,17 @@ void Tree::displayTree(Tree *t){
   }
 }
 
+Tree *Tree::copyT(Tree *t){
+  Tree* nuevo = nullptr;
+  if (t){
+    nuevo = new Tree();
+    nuevo->signo = t->signo;
+    nuevo->left = copyT(t->left);
+    nuevo->right = copyT(t->right);
+  }
+  return nuevo;
+}
+
 bool Tree::in_operadores_char(char ch){
   // Retorna True si el char ingresdo es un operador.
   // De lo contrario retorna False.
@@ -281,7 +292,12 @@ Tree Tree::Derivacion(Tree *t){
           nuev->left->left = nuev->left->right;
           nuev->left->right = old_left;
           nuev->right = copyT(t->right);
-          nuev->right->signo +="-1";
+          if (conver_num2(nuev->left->right->signo)){
+            int num = stoi(nuev->left->right->signo);
+            num -=1;
+            string str_num = to_string(num);
+            nuev->left->right->signo = str_num;
+          }
         }
         else{
           // Regla de la cadena.
@@ -334,28 +350,51 @@ Tree Tree::Derivacion(Tree *t){
   return *nuev;
 }
 
+string Tree::treetostring(){
+  Tree *prueba = this;
+  return treetostring (prueba);
+}
+
+
 string Tree::treetostring(Tree *t){
+  Derivada(t);
   string str = "";
   if (t != nullptr){
     if (t->left == nullptr){
-      str+= "[" + t->signo + "]";
+      str += t->signo ;
     }
     else{
-      treetostring(t->left);
-      str+= "[" + t->signo + "]";
-      treetostring(t->right);
+      str += "[" + treetostring(t->left);
+      str +=  t->signo;
+      str += treetostring(t->right) + "]";
     }
   }
   return str;
 }
 
-Tree *Tree::copyT(Tree *t){
-  Tree* nuevo = nullptr;
-  if (t){
-      nuevo = new Tree();
-      nuevo->signo = t->signo;
-      nuevo->left = copyT(t->left);
-      nuevo->right = copyT(t->right);
+
+Tree & Tree::Derivada (Tree *t){
+  if (t->signo == "*" && (t->right->signo == "1" || t->left->signo == "1")){
+    if (t->right->signo == "1" || t->left->signo != "1"){
+      Derivada(t->left);
+    }
+    else{
+      Derivada(t->right);
+    }
   }
-  return nuevo;
+  else if (t->signo == "+" && (t->right->signo == "0" || t->left->signo == "0")){
+    if (t->right->signo == "0" && t->left->signo != "0"){
+      t->signo = t->left->signo;
+      t->left = t->left->left;
+      t->right = t->right->right;
+      Derivada(t);
+    }
+    else{
+      t->signo = t->right->signo;
+      t->left = t->left->left;
+      t->right = t->right->right;
+      Derivada(t);
+    }
+  }
+  return *t;
 }

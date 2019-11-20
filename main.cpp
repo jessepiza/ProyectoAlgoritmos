@@ -7,5 +7,7 @@ int main(){
   Tree b = prueba.Derivacion();
   b.displayTree();
   cout << endl;
+  string hola = b.treetostring();
+  cout << hola << endl;
   return 0;
 }
