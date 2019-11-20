@@ -403,7 +403,13 @@ Tree Tree::Derivacion(Tree *t){
       //nuev->left = new Tree(map["ln"]);    
       nuev->right = new Tree(Derivacion(tfunc));
     }else if(t->signo.find("e")!= string::npos){
-
+      int idx = t->signo.find("[");
+      int fin = t->signo.find("]");
+      string func = t->signo.substr(idx+1, fin-1);
+      Tree* tfunc = new Tree(func);
+      nuev->signo = "*";
+      //nuev->left = new Tree(map["e"]);    
+      nuev->right = new Tree(Derivacion(tfunc));
       }
   }
   return *nuev;
