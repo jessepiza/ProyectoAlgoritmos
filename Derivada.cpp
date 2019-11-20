@@ -334,6 +334,21 @@ Tree Tree::Derivacion(Tree *t){
   return *nuev;
 }
 
+string Tree::treetostring(Tree *t){
+  string str = "";
+  if (t != nullptr){
+    if (t->left == nullptr){
+      str+= "[" + t->signo + "]";
+    }
+    else{
+      treetostring(t->left);
+      str+= "[" + t->signo + "]";
+      treetostring(t->right);
+    }
+  }
+  return str;
+}
+
 Tree *Tree::copyT(Tree *t){
   Tree* nuevo = nullptr;
   if (t){
