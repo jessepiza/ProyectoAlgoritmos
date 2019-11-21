@@ -135,6 +135,7 @@ int Tree::index_balanced(string str){
       count2++;
     if (count1 == count2)
       return q;
+      
   }
   return -1;
 }
