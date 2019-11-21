@@ -21,6 +21,7 @@ public:
   bool in_funciones_str(string str);
   bool conver_num(string str);
   int operador(string str);
+  int funciones(string str);
   int index_balanced(string str);
   string reverse(string str);
   string polaca(string str);

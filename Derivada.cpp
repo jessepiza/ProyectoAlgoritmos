@@ -121,6 +121,31 @@ bool Tree::in_funciones_str(string str){
   return false;
 }
 
+int Tree::funciones(string str){
+  // Recorre el string ingresado, busca los operadores.
+  // Y retorna la posición donde se encuentra el operador.
+  // Parámetros:
+  // str - String
+  int level = 0;
+  unsigned int idx_operador = 0;
+  int val = 1e6;
+  for (unsigned int i = 0; i < str.size(); i++){
+    string fun = str.substr(i, 2);
+    if (str[i] == '['){
+      level++;
+    }
+    else if (str[i] == ']'){
+      level--;
+    }
+    else if (in_funciones_str(fun)){
+      if (val > level){
+        idx_operador = i;
+        val = level;
+      }
+    }
+  }
+  return idx_operador;
+}
 
 int Tree::index_balanced(string str){
   // Retorna el índice en str donde están balanceados los paréntesis.
@@ -135,7 +160,7 @@ int Tree::index_balanced(string str){
       count2++;
     if (count1 == count2)
       return q;
-      
+
   }
   return -1;
 }
