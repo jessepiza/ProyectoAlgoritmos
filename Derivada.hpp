@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include<map>
 #include <vector>
 #include <stdio.h>
 
@@ -13,10 +14,14 @@ public:
   Tree();
   Tree(string func);
   // Tree(Tree *t);
+  map<string,string> mp;
+  map<string,string>::iterator it;
 
   bool in_operadores_str (string str);
+  bool in_funciones_str(string str);
   bool conver_num(string str);
   int operador(string str);
+
   int index_balanced(string str);
   string reverse(string str);
   string polaca(string str);
@@ -29,6 +34,8 @@ public:
 private:
   string signo; // Operador o variable libre de la función
   Tree *left, *right; // Operandos que separa el operador
+
+
 
   Tree Derivacion(Tree *t);
   void displayTree(Tree *t);
