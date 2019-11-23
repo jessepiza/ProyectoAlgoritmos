@@ -46,17 +46,4 @@ private:
   Tree & Derivada (Tree *t);
 };
 
-// class Derivada: public Tree{
-// public:
-//   Derivada();
-//   Derivada(Tree *t);
-//   Derivada Derivacion();
-//   Derivada *copyT(Tree *t);
-//   void displayDer();
-//
-// private:
-//   Tree *Der;
-//   Derivada Derivacion(Tree *t);
-// };
-
 #endif

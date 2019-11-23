@@ -15,24 +15,32 @@ Tree::Tree(){
 Tree::Tree(string func){
   // Constructor copia.
   // Convierte la función ingresada en un árbol.
-  mp["sin"] = "cos";
-  mp["cos"] = "-sen";
-  mp["tan"] = "sec^2";
-  mp["cot"] = "csc^2";
-  mp["csc"] = "-cot[]*csc";
-  mp["sec"] = "sec[]*tan";
-  mp["ln"] = "1/";
-  mp["e"] = "e^";
-  int idx = func.find("[");
-  int fin =index_balanced(func);
-  string trigo = func.substr(0,idx);
-  string fun = func.substr(idx,fin-idx);
-  it = mp.find(trigo);
-  if(it!=mp.end()){
-    signo = trigo+fun;
-    left = nullptr;
-    right = nullptr;
-  }else{
+  for (unsigned int i = 0; i < func.size(); i++){
+    if (func[i] == '(' || func[i] == '{'){
+      func[i] = '[';
+    }
+    else if (func[i] == ')' || func[i] == '}'){
+      func[i] = ']';
+    }
+  }
+  // mp["sin"] = "cos";
+  // mp["cos"] = "-sen";
+  // mp["tan"] = "sec^2";
+  // mp["cot"] = "csc^2";
+  // mp["csc"] = "-cot[]*csc";
+  // mp["sec"] = "sec[]*tan";
+  // mp["ln"] = "1/";
+  // mp["e"] = "e^";
+  // int idx = func.find("[");
+  // int fin =index_balanced(func);
+  // string trigo = func.substr(0,idx);
+  // string fun = func.substr(idx,fin-idx);
+  // it = mp.find(trigo);
+  // if(it!=mp.end()){
+  //   signo = trigo+fun;
+  //   left = nullptr;
+  //   right = nullptr;
+  // }else{
     if (!is_polaca_inv(func)){
       stringtotree(polaca_inv(func));
     }
@@ -40,8 +48,8 @@ Tree::Tree(string func){
       stringtotree(func);
     }
 
-  }
-  
+  // }
+
 
 }
 
@@ -180,14 +188,6 @@ string Tree::polaca(string str){
   // Parámetros:
   // str - String.
   // Parámetros
-  if ((str.find('[') == string::npos) and (str.find('(') != string::npos)){
-    for (unsigned int q = 0; q < str.size(); q++){
-      if (str[q] == '(')
-        str[q] = '[';
-      else if (str[q] == ')')
-        str[q] = ']';
-    }
-  }
   string total;
   int s = operador(str);
   if (str.size() <= 1){
@@ -346,14 +346,10 @@ Tree Tree::Derivacion(Tree *t){
         // Caso: El exponente es un número.
         if (!in_operadores_str(t->left->signo)){
           // La variable está sola.
-          nuev->signo = "^";
-          nuev->left = copyT(t);
-          nuev->left->signo = "*";
-          nuev->left->left = new Tree(t->left->signo);
-          Tree *old_left = nuev->left->left;
-          nuev->left->left = nuev->left->right;
-          nuev->left->right = old_left;
-          nuev->right = copyT(t->right);
+          nuev->signo = "*";
+          nuev->right = copyT(t);
+          nuev->left = copyT(t->right);
+          // nuev->right->right->signo += "-1";
           if (conver_num2(nuev->left->right->signo)){
             int num = stoi(nuev->left->right->signo);
             num -=1;
@@ -362,17 +358,15 @@ Tree Tree::Derivacion(Tree *t){
           }
         }
         else{
+          cout << "entre" << endl;
           // Regla de la cadena.
           nuev->signo = "*";
           nuev->right = new Tree(Derivacion(t->left));
           nuev->left = new Tree();
-          nuev->left->signo = "^";
-          nuev->left->left = copyT(t);
-          nuev->left->left->signo = "*";
-          Tree *old_left = nuev->left->left->left;
-          nuev->left->left->left = nuev->left->left->right;
-          nuev->left->left->right = old_left;
-          nuev->left->right = copyT(t->right);
+          nuev->left->signo = "*";
+          nuev->left->right = copyT(t);
+          nuev->left->left = copyT(t->right);
+          nuev->left->right->right->signo += "-1";
           if (conver_num2(nuev->left->right->signo)){
             int num = stoi(nuev->left->right->signo);
             num -=1;
@@ -415,8 +409,8 @@ Tree Tree::Derivacion(Tree *t){
       int fin = index_balanced(t->signo);
       string func = t->signo.substr(idx, fin-idx);
       cout<<"func: "<<func.size()<<endl;
-      string sol = mp["sin"]+func; 
-      cout<<"sol. "<<sol<<endl;     
+      string sol = mp["sin"]+func;
+      cout<<"sol. "<<sol<<endl;
       Tree* tfunc = new Tree(func);
       nuev->signo = "*";
       nuev->left = new Tree(sol);
@@ -427,10 +421,10 @@ Tree Tree::Derivacion(Tree *t){
       int idx = t->signo.find("[");
       int fin = index_balanced(t->signo);
       string func = t->signo.substr(idx, fin-idx);
-      string sol = mp["cos"]+func; 
+      string sol = mp["cos"]+func;
       Tree* tfunc = new Tree(func);
       nuev->signo = "*";
-      nuev->left = new Tree(sol);    
+      nuev->left = new Tree(sol);
       nuev->right = new Tree(Derivacion(tfunc));
 
     }
@@ -441,7 +435,7 @@ Tree Tree::Derivacion(Tree *t){
       string sol = mp["tan"]+func;
       Tree* tfunc = new Tree(func);
       nuev->signo = "*";
-      nuev->left = new Tree(sol);    
+      nuev->left = new Tree(sol);
       nuev->right = new Tree(Derivacion(tfunc));
 
     }
@@ -453,7 +447,7 @@ Tree Tree::Derivacion(Tree *t){
       string solf = sol+func;
       Tree* tfunc = new Tree(func);
       nuev->signo = "*";
-      nuev->left = new Tree(solf);    
+      nuev->left = new Tree(solf);
       nuev->right = new Tree(Derivacion(tfunc));
 
     }
@@ -464,7 +458,7 @@ Tree Tree::Derivacion(Tree *t){
       string sol = mp["cot"]+func;
       Tree* tfunc = new Tree(func);
       nuev->signo = "*";
-      nuev->left = new Tree(sol);    
+      nuev->left = new Tree(sol);
       nuev->right = new Tree(Derivacion(tfunc));
 
     }
@@ -476,7 +470,7 @@ Tree Tree::Derivacion(Tree *t){
       string solf = sol+func;
       Tree* tfunc = new Tree(func);
       nuev->signo = "*";
-      nuev->left = new Tree(solf);    
+      nuev->left = new Tree(solf);
       nuev->right = new Tree(Derivacion(tfunc));
 
     }
@@ -487,7 +481,7 @@ Tree Tree::Derivacion(Tree *t){
       string solf = mp["ln"]+func;
       Tree* tfunc = new Tree(func);
       nuev->signo = "*";
-      nuev->left = new Tree(solf);    
+      nuev->left = new Tree(solf);
       nuev->right = new Tree(Derivacion(tfunc));
 
     }
@@ -498,7 +492,7 @@ Tree Tree::Derivacion(Tree *t){
       string sol = mp["e"]+func;
       Tree* tfunc = new Tree(func);
       nuev->signo = "*";
-      nuev->left = new Tree(sol);    
+      nuev->left = new Tree(sol);
       nuev->right = new Tree(Derivacion(tfunc));
       }
   }
@@ -529,28 +523,85 @@ string Tree::treetostring(Tree *t){
 
 
 Tree & Tree::Derivada (Tree *t){
-  if (t->signo == "*" && (t->right->signo == "1" || t->left->signo == "1")){
-    if (t->right->signo == "1" || t->left->signo != "1"){
-      Derivada(t->left);
-    }
-    else{
-      Derivada(t->right);
+  if (t->signo == "+"){
+    if (t->right->signo == "0" || t->left->signo == "0"){
+      cout << "entre" << endl;
+      if (t->right->signo == "0" && t->left->signo != "0"){
+        t->signo = t->left->signo;
+        Tree *ant_right = copyT(t->left->right);
+        t->left = copyT(t->left->left);
+        t->right = ant_right;
+        Derivada(t);
+      }
+      else{
+        t->signo = t->right->signo;
+        Tree *ant_left = copyT(t->right->left);
+        t->right = copyT(t->right->right);
+        t->left = ant_left;
+        Derivada(t);
+      }
     }
   }
-  else if (t->signo == "+" && (t->right->signo == "0" || t->left->signo == "0")){
-    if (t->right->signo == "0" && t->left->signo != "0"){
-      t->signo = t->left->signo;
-      t->left = t->left->left;
-      t->right = t->right->right;
-      Derivada(t);
+  if (t->signo == "*"){
+    if ((t->right->signo == "+" || t->right->signo == "-") && (t->right->right->signo == "0" || t->right->left->signo == "0")){
+      if (t->right->right->signo == "0" && t->right->left->signo != "0"){
+        t->right->signo = t->right->left->signo;
+        t->right->left = copyT(t->right->left->left);
+        t->right->right = copyT(t->right->right->right);
+        Derivada(t->right);
+      }
+      else{
+        t->right->signo = t->right->right->signo;
+        t->right->left = copyT(t->right->left->left);
+        t->right->right = copyT(t->right->right->right);
+        Derivada(t->left);
+      }
     }
-    else{
-      t->signo = t->right->signo;
-      t->left = t->left->left;
-      t->right = t->right->right;
-      Derivada(t);
+    else if (t->left->signo == "+" && (t->left->right->signo == "0" || t->left->left->signo == "0")){
+      if (t->left->right->signo == "0" && t->left->left->signo != "0"){
+        t->left->signo = t->left->left->signo;
+        t->left->left = copyT(t->left->left->left);
+        t->left->right = copyT(t->left->right->right);
+        Derivada(t->left);
+      }
+      else{
+        t->left->signo = t->left->right->signo;
+        t->left->left = copyT(t->left->left->left);
+        t->left->right = copyT(t->left->right->right);
+        Derivada(t->right);
+      }
+    }
+    if (t->right->signo == "1" || t->left->signo == "1"){
+      if (t->right->signo == "1" && t->left->signo != "1"){
+        t->signo = t->left->signo;
+        Tree *ant_right = copyT(t->left->right);
+        t->left = copyT(t->left->left);
+        t->right = ant_right;
+        Derivada(t);
+      }
+      else{
+        t->signo = t->right->signo;
+        Tree *ant_left = copyT(t->right->left);
+        t->right = copyT(t->right->right);
+        t->left = ant_left;
+        Derivada(t);
+      }
+    }
+    else if (t->right->signo == "0" || t->left->signo == "0"){
+      t->signo = "0";
+      if (t->right->signo == "0" && t->left->signo != "0"){
+        Tree *ant_left = copyT(t->right->left);
+        t->right = copyT(t->right->right);
+        t->left = ant_left;
+        Derivada(t);
+      }
+      else{
+        Tree *ant_right = copyT(t->left->right);
+        t->left = copyT(t->left->left);
+        t->right = ant_right;
+        Derivada(t);
+      }
     }
   }
   return *t;
 }
-
