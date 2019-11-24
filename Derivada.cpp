@@ -613,10 +613,16 @@ Tree & Tree::Derivada (Tree *t){
   }
   else if (t->signo == "^"){
     if (t->right->signo == "1"){
-      t = copyT(t->right);
+      t = copyT(t->left);
     }
   }
   else if (t->signo == "*"){
+    if (t->right->signo == "^"){
+      t->right = new Tree(Derivada(t->right));
+    }
+    if (t->left->signo == "^"){
+      t->left = new Tree(Derivada(t->left));
+    }
     if ((t->right->signo == "+" || t->right->signo == "-") && (t->right->right->signo == "0" || t->right->left->signo == "0")){
       if (t->right->right->signo == "0" && t->right->left->signo != "0"){
         t->right->signo = t->right->left->signo;
