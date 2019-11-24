@@ -230,8 +230,7 @@ void Tree::stringtotree(string str){
 
 void Tree::displayTree(){
   // Utiliza displayTree(Tree *t) para imprimir el árbol sin parámetos.
-  Tree* prueba = this;
-  displayTree(prueba);
+  displayTree(this);
 }
 
 void Tree::displayTree(Tree *t){
@@ -277,12 +276,11 @@ bool Tree::is_polaca_inv(string str){
   // De lo contrario retorna False.
   // Parámetos:
   // str - String.
-  return in_operadores_char(str[str.size()-1]) || in_funciones_char(str[0]);
+  return in_operadores_char(str[str.size()-1]);
 }
 
 Tree Tree::Derivacion(){
-  Tree* prueba = this;
-  return Derivacion(prueba);
+  return Derivacion(this);
 }
 
 Tree Tree::Derivacion(Tree *t){
@@ -570,8 +568,12 @@ Tree Tree::Derivacion(Tree *t){
 }
 
 string Tree::treetostring(){
-  Tree *prueba = this;
-  return treetostring (prueba);
+  string der_str = treetostring (this);
+  if (der_str.front() == '[' && der_str.back() == ']'){
+    der_str.erase(der_str.begin());
+    der_str.pop_back();
+  }
+  return der_str;
 }
 
 
