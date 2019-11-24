@@ -24,7 +24,6 @@ def der_fun():
     a = e.get()
     der = Button (raiz, width = 6, height = 2, anchor = CENTER, text = "Derivar", command = lambda: txt(e), font =("Arial", "15"), bg = "slateblue")
     micanvas.create_window(830,280 , window = der, anchor = CENTER)
-
     sal= Button(raiz, width = 6, height= 2, anchor = CENTER, text = "Salir", command = lambda: salir(), font = ("Arial", "15"), bg = "indian red")
     micanvas.create_window(700, 540, window = sal, anchor = CENTER)
 
@@ -35,8 +34,12 @@ def limpiar():
 def salir():
     raiz.quit()
 
+def deleteContent(fName):
+    with open(fName, "w"):
+        pass
 
 def txt(e):
+    deleteContent("Derivada.txt")
     subprocess.call("./a.exe")
     file = open("Funcion.txt", "w")
     file.write(str(e.get()) + os.linesep)
@@ -49,17 +52,16 @@ def txt(e):
     a.config(state = NORMAL)
     a.insert(0, deri)
     a.config(state = "readonly")
-
     a.place(relx=0.5,rely=0.8,anchor='s',relheight=0.15,relwidth=0.55)
     a.config(justify = CENTER)
     otra = Button (raiz, width = 20, height = 2, anchor = CENTER, text = "Ingresar nueva derivada", command = lambda: otra_der(e, a), font = ("Arial", "15"), bg = "slateblue")
     micanvas.create_window(340, 540, window = otra, anchor = CENTER)
-
-    # micanvas.create_text(width/2, 430, text = deri, anchor = CENTER, font =('Arial Black', "35"), fill = "navy")
     file.close()
 
 
 def otra_der(e, a):
+    deleteContent("Derivada.txt")
+    deleteContent("Funcion.txt")
     e.delete(0, END)
     a.config(state = NORMAL)
     a.delete(0,END)
