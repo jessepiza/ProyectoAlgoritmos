@@ -40,15 +40,15 @@ def deleteContent(fName):
 
 def txt(e):
     deleteContent("Derivada.txt")
-    subprocess.call("./a.exe")
     file = open("Funcion.txt", "w")
     file.write(str(e.get()) + os.linesep)
     file.close()
     print(e.get())
     micanvas.create_text(width/2, 365, text = "Respuesta", anchor = CENTER, font =('Arial Black', "30"))
+    subprocess.call("./a.exe")
     file = open("Derivada.txt", "r")
     deri = file.read()
-    a = Entry(raiz,font=('Arial',30), fg = "navy", state = DISABLED)
+    a = Entry(raiz,font=('Arial',30), fg = "navy")
     a.config(state = NORMAL)
     a.insert(0, deri)
     a.config(state = "readonly")
@@ -60,11 +60,10 @@ def txt(e):
 
 
 def otra_der(e, a):
-    deleteContent("Derivada.txt")
-    deleteContent("Funcion.txt")
     e.delete(0, END)
     a.config(state = NORMAL)
     a.delete(0,END)
+    a.config (state = DISABLED)
 
 
 der_fun()
