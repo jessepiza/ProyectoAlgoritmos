@@ -38,7 +38,6 @@ def txt(fun_ini):
     file = open("Funcion.txt", "w")
     file.write(str(fun_ini.get()) + os.linesep)
     file.close()
-    print(fun_ini.get())
     micanvas.create_text(width/2, 365, text = "Respuesta", anchor = CENTER, font =('Arial Black', "30"))
     subprocess.call("./a.exe")
     file = open("Derivada.txt", "r")
