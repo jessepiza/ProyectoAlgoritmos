@@ -504,11 +504,12 @@ Tree Tree::Derivacion(Tree *t){
           nuev->signo = "*";
           nuev->right = copyT(t);
           nuev->left = copyT(t->right);
-          if (conver_num2(nuev->left->right->signo)){
-            int num = stoi(nuev->left->right->signo);
+          // nuev->right->right->signo += "-1";
+          if (conver_num2(nuev->right->right->signo)){
+            int num = stoi(nuev->right->right->signo);
             num -=1;
             string str_num = to_string(num);
-            nuev->left->right->signo = str_num;
+            nuev->right->right->signo = str_num;
           }
         }
         else{
@@ -519,11 +520,12 @@ Tree Tree::Derivacion(Tree *t){
           nuev->left->signo = "*";
           nuev->left->right = copyT(t);
           nuev->left->left = copyT(t->right);
-          if (conver_num2(nuev->left->right->signo)){
-            int num = stoi(nuev->left->right->signo);
+          // nuev->left->right->right->signo += "-1";
+          if (conver_num2(nuev->left->right->right->signo)){
+            int num = stoi(nuev->left->right->right->signo);
             num -=1;
             string str_num = to_string(num);
-            nuev->left->right->signo = str_num;
+            nuev->left->right->right->signo = str_num;
           }
         }
       }
@@ -609,7 +611,12 @@ Tree & Tree::Derivada (Tree *t){
       }
     }
   }
-  if (t->signo == "*"){
+  else if (t->signo == "^"){
+    if (t->right->signo == "1"){
+      t = copyT(t->right);
+    }
+  }
+  else if (t->signo == "*"){
     if ((t->right->signo == "+" || t->right->signo == "-") && (t->right->right->signo == "0" || t->right->left->signo == "0")){
       if (t->right->right->signo == "0" && t->right->left->signo != "0"){
         t->right->signo = t->right->left->signo;
@@ -624,7 +631,7 @@ Tree & Tree::Derivada (Tree *t){
         Derivada(t->left);
       }
     }
-    else if ((t->right->signo == "+" || t->right->signo == "-") && (t->left->right->signo == "0" || t->left->left->signo == "0")){
+    else if ((t->left->signo == "+" || t->left->signo == "-") && (t->left->right->signo == "0" || t->left->left->signo == "0")){
       if (t->left->right->signo == "0" && t->left->left->signo != "0"){
         t->left->signo = t->left->left->signo;
         t->left->left = copyT(t->left->left->left);
@@ -639,6 +646,7 @@ Tree & Tree::Derivada (Tree *t){
       }
     }
     if (t->right->signo == "1" || t->left->signo == "1"){
+
       if (t->right->signo == "1" && t->left->signo != "1"){
         t->signo = t->left->signo;
         Tree *ant_right = copyT(t->left->right);
