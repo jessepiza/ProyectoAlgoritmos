@@ -27,7 +27,7 @@ def der_fun():
 
     sal= Button(raiz, width = 6, height= 2, anchor = CENTER, text = "Salir", command = lambda: salir(), font = ("Arial", "15"), bg = "indian red")
     micanvas.create_window(700, 540, window = sal, anchor = CENTER)
-    otra = Button (raiz, width = 20, height = 2, anchor = CENTER, text = "Ingresar nueva derivada", command = lambda: otra_der(), font = ("Arial", "15"), bg = "slateblue")
+    otra = Button (raiz, width = 20, height = 2, anchor = CENTER, text = "Ingresar nueva derivada", command = lambda: otra_der(e), font = ("Arial", "15"), bg = "slateblue")
     micanvas.create_window(340, 540, window = otra, anchor = CENTER)
 
 def limpiar():
@@ -46,13 +46,14 @@ def txt(e):
     micanvas.create_text(width/2, 365, text = "Respuesta", anchor = CENTER, font =('Arial Black', "30"))
     file = open("Derivada.txt", "r")
     deri = str(file.read())
-
     micanvas.create_text(width/2, 430, text = deri, anchor = CENTER, font =('Aharoni', "35"), fill = "navy")
     file.close()
 
 
-def otra_der():
-    txt(e)
+def otra_der(e):
+    e.delete(0, END)
+
+
 
 der_fun()
 raiz.mainloop()
