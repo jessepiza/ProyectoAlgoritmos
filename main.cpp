@@ -9,10 +9,6 @@ int main(){
   Tree funcion(cadena);
   Tree funcion_der = funcion.Derivacion();
   string der_str = funcion_der.treetostring();
-  if (der_str.front() == '[' && der_str.back() == ']'){
-    der_str.erase(der_str.begin());
-    der_str.pop_back();
-  }
   fe.close();
 
   ofstream file;
