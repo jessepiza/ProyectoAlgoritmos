@@ -37,15 +37,11 @@ def txt(fun_ini):
     file = open("Funcion.txt", "w")
     file.write(str(fun_ini.get()) + os.linesep)
     file.close()
-<<<<<<< HEAD
     print(fun_ini.get())
-=======
->>>>>>> d76d35d5de7cc434d3831de152ea615af9bdf4b9
     micanvas.create_text(width/2, 365, text = "Respuesta", anchor = CENTER, font =('Arial Black', "30"))
     subprocess.call("./a.exe")
     file = open("Derivada.txt", "r")
     deri = file.read()
-<<<<<<< HEAD
     respuesta = Entry(raiz,font=('Arial',30), fg = "navy")
     respuesta.config(state = NORMAL)
     respuesta.insert(0, deri)
@@ -54,7 +50,6 @@ def txt(fun_ini):
     respuesta.config(justify = CENTER)
     fun_ini.config (state = "readonly")
     otra = Button (raiz, width = 20, height = 2, anchor = CENTER, text = "Ingresar nueva derivada", command = lambda: otra_der(fun_ini, respuesta), font = ("Arial", "15"), bg = "slateblue")
-=======
     a = Entry(raiz,font=('Arial',30), fg = "navy")
     a.config(state = NORMAL)
     a.insert(0, deri)
@@ -62,7 +57,6 @@ def txt(fun_ini):
     a.place(relx=0.5,rely=0.8,anchor='s',relheight=0.15,relwidth=0.9)
     a.config(justify = CENTER)
     otra = Button (raiz, width = 20, height = 2, anchor = CENTER, text = "Ingresar nueva derivada", command = lambda: otra_der(e, a), font = ("Arial", "15"), bg = "slateblue")
->>>>>>> d76d35d5de7cc434d3831de152ea615af9bdf4b9
     micanvas.create_window(340, 540, window = otra, anchor = CENTER)
     file.close()
 
