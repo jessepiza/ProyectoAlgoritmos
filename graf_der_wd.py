@@ -63,6 +63,7 @@ def otra_der(e, a):
     e.delete(0, END)
     a.config(state = NORMAL)
     a.delete(0,END)
+    a.config(state = "readonly")
 
 
 der_fun()
