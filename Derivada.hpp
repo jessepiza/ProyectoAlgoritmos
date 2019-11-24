@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include<map>
+#include <map>
 #include <vector>
 #include <stdio.h>
 
@@ -13,15 +13,11 @@ class Tree{
 public:
   Tree();
   Tree(string func);
-  // Tree(Tree *t);
-  map<string,string> mp;
-  map<string,string>::iterator it;
 
   bool in_operadores_str (string str);
   bool in_funciones_str(string str);
   bool conver_num(string str);
   int operador(string str);
-  int funciones(string str);
   int index_balanced(string str);
   string reverse(string str);
   string polaca(string str);
@@ -35,11 +31,10 @@ private:
   string signo; // Operador o variable libre de la función
   Tree *left, *right; // Operandos que separa el operador
 
-
-
   Tree Derivacion(Tree *t);
   void displayTree(Tree *t);
   bool in_operadores_char (char ch);
+  bool in_funciones_char (char ch);
   bool is_polaca_inv(string str);
   bool conver_num2(string str);
   string treetostring(Tree *t);
