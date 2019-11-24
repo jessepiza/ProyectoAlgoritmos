@@ -15,7 +15,7 @@ micanvas.pack()
 
 
 def der_fun():
-    micanvas.create_text(width/2, 100, text = "CÁLCULADORA DE DERIVADAS", anchor = CENTER, font = ("Arial Black", "35"), fill = "navy")
+    micanvas.create_text(width/2, 100, text = "CÁLCULADORA DE DERIVADAS", anchor = CENTER, font = ("Arial Black", "38"), fill = "navy")
     micanvas.create_text(width/2, 200, text = "Ingrese la función que desea derivar", anchor = CENTER, font =('Aharoni', "30"))
     raiz.config (width = 1200, height = 800, bg = "black")
     e = Entry(raiz,font=('Arial',30))
@@ -46,7 +46,7 @@ def txt(e):
     micanvas.create_text(width/2, 365, text = "Respuesta", anchor = CENTER, font =('Arial Black', "30"))
     file = open("Derivada.txt", "r")
     deri = str(file.read())
-    micanvas.create_text(width/2, 430, text = deri, anchor = CENTER, font =('Aharoni', "35"), fill = "navy")
+    micanvas.create_text(width/2, 430, text = deri, anchor = CENTER, font =('Arial Black', "35"), fill = "navy")
     file.close()
 
 
