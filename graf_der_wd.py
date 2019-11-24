@@ -27,7 +27,7 @@ def der_fun():
 
     sal= Button(raiz, width = 6, height= 2, anchor = CENTER, text = "Salir", command = lambda: salir(), font = ("Arial", "15"), bg = "indian red")
     micanvas.create_window(700, 540, window = sal, anchor = CENTER)
-    otra = Button (raiz, width = 20, height = 2, anchor = CENTER, text = "Ingresar nueva derivada", command = lambda: otra_der(e), font = ("Arial", "15"), bg = "slateblue")
+    otra = Button (raiz, width = 20, height = 2, anchor = CENTER, text = "Ingresar nueva derivada", command = lambda: otra_der(e, a), font = ("Arial", "15"), bg = "slateblue")
     micanvas.create_window(340, 540, window = otra, anchor = CENTER)
 
 def limpiar():
@@ -45,14 +45,22 @@ def txt(e):
     print(e.get())
     micanvas.create_text(width/2, 365, text = "Respuesta", anchor = CENTER, font =('Arial Black', "30"))
     file = open("Derivada.txt", "r")
-    deri = str(file.read())
-    micanvas.create_text(width/2, 430, text = deri, anchor = CENTER, font =('Arial Black', "35"), fill = "navy")
+    deri = file.read()
+    a = Entry(raiz,font=('Arial',30), fg = "navy", state = DISABLED)
+    a.config(state = NORMAL)
+    a.insert(0, deri)
+    a.config(state = "readonly")
+
+    a.place(relx=0.5,rely=0.8,anchor='s',relheight=0.15,relwidth=0.55)
+    a.config(justify = CENTER)
+
+    # micanvas.create_text(width/2, 430, text = deri, anchor = CENTER, font =('Arial Black', "35"), fill = "navy")
     file.close()
 
 
-def otra_der(e):
+def otra_der(e, a):
     e.delete(0, END)
-
+    a.delete(0, END)
 
 
 der_fun()
