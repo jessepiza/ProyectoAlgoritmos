@@ -1,5 +1,4 @@
 #include "Derivada.hpp"
-#include <iostream>
 #include <fstream>
 
 int main(){

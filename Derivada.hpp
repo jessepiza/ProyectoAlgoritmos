@@ -10,6 +10,7 @@ using namespace std;
 class Tree{
 public:
   Tree();
+  ~Tree();
   Tree(string func);
 
   bool in_operadores_str (string str);
@@ -22,6 +23,7 @@ public:
   string polaca_inv(string str);
   void stringtotree(string str);
   void displayTree();
+  void clear();
   Tree *copyT(Tree *t);
   Tree Derivacion();
   string treetostring();
@@ -31,6 +33,7 @@ private:
 
   Tree Derivacion(Tree *t);
   void displayTree(Tree *t);
+  void clear(Tree *t);
   bool in_operadores_char (char ch);
   bool in_funciones_char (char ch);
   bool is_polaca_inv(string str);

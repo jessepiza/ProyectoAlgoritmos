@@ -10,6 +10,11 @@ Tree::Tree(){
   signo = "";
 }
 
+Tree::~Tree(){
+  // Destructor.
+  clear();
+}
+
 Tree::Tree(string func){
   // Constructor copia.
   // Convierte la función ingresada en un árbol.
@@ -226,13 +231,29 @@ void Tree::stringtotree(string str){
   }
 }
 
+void Tree::clear(){
+  // Utiliza clear(Tree *t) para limpiar el árbol sin parámetos.
+  clear(this);
+}
+
+void Tree::clear(Tree *t){
+  // Limpia el árbol.
+  // Parámetros:
+  // t - Tree.
+  if (t != nullptr){
+    clear(t->left);
+    clear(t->right);
+    delete t;
+  }
+}
+
 void Tree::displayTree(){
   // Utiliza displayTree(Tree *t) para imprimir el árbol sin parámetos.
   displayTree(this);
 }
 
 void Tree::displayTree(Tree *t){
-  // Imprime el arbol.
+  // Imprime el árbol.
   // Parámetros:
   // t - Tree.
   if (t->left == nullptr){
@@ -246,7 +267,7 @@ void Tree::displayTree(Tree *t){
 }
 
 Tree *Tree::copyT(Tree *t){
-  // Retorna un arbol que es copia del árbol ingresado.
+  // Retorna un árbol que es copia del árbol ingresado.
   // Parámetros:
   // t - Tree.
   Tree* nuevo = nullptr;
@@ -285,7 +306,7 @@ Tree Tree::Derivacion(){
 }
 
 Tree Tree::Derivacion(Tree *t){
-  // Retorna un arbol con la expresión ingresada derivada.
+  // Retorna un árbol con la expresión ingresada derivada.
   // Parámetos:
   // t - Tree
   Tree* nuev = new Tree();
@@ -319,8 +340,8 @@ Tree Tree::Derivacion(Tree *t){
         nuev->signo = "*";
         nuev->right = new Tree(Derivacion(aux));
         nuev->left = new Tree();
-        nuev->left->signo = "-sin";
-        nuev->left->signo += '(' + atributo + ')';
+        nuev->left->signo = "(-sin";
+        nuev->left->signo += '(' + atributo + "))";
       }
       else if (func == "tan"){
         nuev->signo = "*";
@@ -601,7 +622,7 @@ string Tree::treetostring(Tree *t){
 
 
 Tree & Tree::Derivada (Tree *t){
-  // Retorna un Tree sin todas las expresiones en el arbol derivados innecesarias, por ejemplo, x+0 lo deja como x.
+  // Retorna un Tree sin todas las expresiones en el árbol derivados innecesarias, por ejemplo, x+0 lo deja como x.
   // Parámetos:
   // t - Tree.
   if (t->signo == "+"){
