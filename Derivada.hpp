@@ -3,9 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include <map>
 #include <vector>
-#include <stdio.h>
 
 using namespace std;
 
