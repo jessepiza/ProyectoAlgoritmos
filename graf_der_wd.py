@@ -47,7 +47,7 @@ def txt(fun_ini):
     respuesta.config(state = NORMAL)
     respuesta.insert(0, deri)
     respuesta.config(state = "readonly")
-    respuesta.place(relx=0.5,rely=0.8,anchor='s',relheight=0.15,relwidth=0.55)
+    respuesta.place(relx=0.5,rely=0.8,anchor='s',relheight=0.15,relwidth=0.9)
     respuesta.config(justify = CENTER)
     fun_ini.config (state = "readonly")
     otra = Button (raiz, width = 20, height = 2, anchor = CENTER, text = "Ingresar nueva derivada", command = lambda: otra_der(fun_ini, respuesta), font = ("Arial", "15"), bg = "slateblue")
