@@ -37,8 +37,8 @@ def salir():
 
 
 def txt(e):
-    e.get()
-    file = open("/Users/alesa/ProyectoAlgoritmos/Funcion.txt", "w")
+    subprocess.call("./a.exe")
+    file = open("Funcion.txt", "w")
     file.write(str(e.get()) + os.linesep)
     file.close()
     print(e.get())
@@ -63,7 +63,6 @@ def otra_der(e, a):
     e.delete(0, END)
     a.config(state = NORMAL)
     a.delete(0,END)
-    a.config(state = "readonly")
 
 
 der_fun()

@@ -4,27 +4,18 @@
 
 int main(){
   string cadena;
-  ifstream fe("/Users/alesa/ProyectoAlgoritmos/Funcion.txt");
+  ifstream fe("Funcion.txt");
   fe>>cadena;
-  // cout>>cadena;
-  Tree prueba(cadena);
-  prueba.displayTree();
-  cout << endl;
-  Tree b = prueba.Derivacion();
-  b.displayTree();
-  cout << endl;
-  string hola = b.treetostring();
-  cout << hola << endl;
+  Tree funcion(cadena);
+  Tree funcion_der = funcion.Derivacion();
+  string der_str = funcion_der.treetostring();
+  der_str.erase(der_str.begin());
+  der_str.pop_back();
   fe.close();
 
   ofstream file;
-  file.open("/Users/alesa/ProyectoAlgoritmos/Derivada.txt");
-  file << hola;
+  file.open("Derivada.txt");
+  file << der_str;
   file.close();
-  system("pause");
-  // while (!fe.eof()) {
-  //   fe >> cadena;
-  //   cout << cadena << endl;
-  // }
   return 0;
 }
