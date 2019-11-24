@@ -6,6 +6,7 @@ raiz = Tk()
 raiz.title ("Derivadas")
 width = 1000
 height = 600
+raiz.resizable (0,0)
 micanvas = Canvas (raiz, bg ="lightblue", width = width, height = height)
 micanvas.pack()
 fondo = PhotoImage(file = 'fondo.png')
@@ -50,13 +51,6 @@ def txt(fun_ini):
     respuesta.config(justify = CENTER)
     fun_ini.config (state = "readonly")
     otra = Button (raiz, width = 20, height = 2, anchor = CENTER, text = "Ingresar nueva derivada", command = lambda: otra_der(fun_ini, respuesta), font = ("Arial", "15"), bg = "slateblue")
-    a = Entry(raiz,font=('Arial',30), fg = "navy")
-    a.config(state = NORMAL)
-    a.insert(0, deri)
-    a.config(state = "readonly")
-    a.place(relx=0.5,rely=0.8,anchor='s',relheight=0.15,relwidth=0.9)
-    a.config(justify = CENTER)
-    otra = Button (raiz, width = 20, height = 2, anchor = CENTER, text = "Ingresar nueva derivada", command = lambda: otra_der(e, a), font = ("Arial", "15"), bg = "slateblue")
     micanvas.create_window(340, 540, window = otra, anchor = CENTER)
     file.close()
 
